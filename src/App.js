@@ -8,9 +8,9 @@ class App extends Component {
 
   state = {
     feed: { first: "", last: "", email: "", content: "" },
-    firsterror: "please enter first name",
-    lasterror: "please enter last name",
-    emailerror: "please enter email",
+    firsterror: "",
+    lasterror: "",
+    emailerror: "",
   };
 
   validate = () => {
