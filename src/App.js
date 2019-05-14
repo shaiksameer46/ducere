@@ -18,7 +18,8 @@ class App extends Component {
     let lasterror = "";
     let emailerror = "";
     
-    if(!this.state.feed.email.includes('@')){emailerror = "invalid email";}
+    if(!((this.state.feed.email).match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)))
+      {emailerror = "invalid email";}
     if(emailerror){this.setState({emailerror});}
     else{this.setState({emailerror : ""});}
 
@@ -33,16 +34,18 @@ class App extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-    this.validate();
-    if(this.state.emailerror === "" && this.state.firsterror === "" && this.state.lasterror === ""){
-    toast.success("Application Submitted successfully");}
+    if(this.state.feed.first === "" || this.state.feed.last === "" || this.state.feed.email === ""){
+      toast.error("Fields cannot be left Blank");}
+    else if (this.state.emailerror === "" && this.state.firsterror === "" && this.state.lasterror === ""){
+      toast.success("Application Submitted successfully");}
     else{toast.error("Application errors found");}
-    } 
+  } 
 
   handleChange = event => {
     const feed = { ...this.state.feed };
     feed[event.currentTarget.name] = event.currentTarget.value;
     this.setState({ feed }); 
+    this.validate();
   };
 
   render() {
@@ -101,7 +104,7 @@ class App extends Component {
               </form>
           </div>
 
-          <div class="col-sm">
+          <div className="col-sm">
             <form onSubmit={this.handleSubmit}>
              <div className="form-group">
               <textarea
